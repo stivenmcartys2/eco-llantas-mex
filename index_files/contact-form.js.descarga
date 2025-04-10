@@ -1,0 +1,44 @@
+// (function(){
+
+//     $('#contact_form').on('submit', function(e){
+//         e.preventDefault();
+//         var self =$(this);
+//         var url = self.attr('action');
+//         console.log("email url...",url);
+
+//         var datos = self.serialize();
+//         var message_response ='*Debe completar los campos requeridos';
+//         var text_color = "red";
+
+//         $.ajax({
+//             url: url,
+//             data: datos,
+//             type: 'POST',
+//             dataType: 'json',
+//             contentType: 'application/x-www-form-urlencoded',
+//             error: function() {
+//                 $(self).parent().find("label").css('color', text_color);
+//                 $(self).parent().find("label").text(message_response);
+//             },
+//             success: function(data) {
+//                 console.log("email send response...",data);
+
+//                 if(data.status === 'success'){
+//                     text_color = 'green';
+//                     message_response = data.message;
+//                 }else if(data.status === 'error'){
+//                     text_color = 'red';
+//                     message_response = data.message;
+//                 }else{
+//                     text_color = 'red';
+//                     message_response = "No se ha podido enviar su solicitud. Intente mas tarde";
+//                 }
+//                 $(self)[0].reset();
+//                 $(self).parent().find("label").css('color', text_color);
+//                 $(self).parent().find("label").text(message_response);
+//             }
+//         });
+
+//     });
+
+// })();

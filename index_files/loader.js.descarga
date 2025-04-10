@@ -1,0 +1,7 @@
+function globalLoader(flag) {
+	if (flag) {
+		$("#global-loader").show();
+	} else {
+		$("#global-loader").hide();
+	}
+}

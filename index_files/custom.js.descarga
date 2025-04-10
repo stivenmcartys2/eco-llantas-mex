@@ -1,0 +1,27 @@
+
+
+function imageLink(value, options) {
+
+    if(value) {
+
+        let indexExtension = value.lastIndexOf('.');
+
+        if (value.substring(indexExtension, value.lenght).length > 5) {
+                let indexExt = value.lastIndexOf('/');
+                return 'http:' + value.substring(0, indexExt) + '/' + options.width + 'x' + options.height;
+
+        } else {
+
+                let link = value.substring(0, indexExtension) +
+                    (options.width || options.height ? '-' : '') +
+                    (options.width ? options.width : '_') +
+                    (options.width || options.height ? 'x' : '') +
+                    (options.height ? options.height : '_') +
+                    (options.width && options.height ? '-upscale(1)' : '') +
+                    (options.position ? '-quadrant('+ options.position+')': '') +
+                    value.substring(indexExtension, value.lenght);
+
+                return link;
+        }
+    }
+}

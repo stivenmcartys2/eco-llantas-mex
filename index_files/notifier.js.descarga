@@ -1,0 +1,96 @@
+
+function Notifier(){
+	var lastClass = null;
+	var elementID = "_notifier_alert";
+	var defaults = {
+		title: "Confirmar",
+		text: "¿Seguro que desea eliminar este elemento?",
+		textYes: "Sí",
+		textNo: "Cancelar",
+		callbackYes: null,
+		callbackNo: null
+	};
+
+	var options;
+
+	createElements();
+	var element = $("#" + elementID);
+
+	this.success = function(text){
+		this.notifier_alert('success', text);
+	};
+
+	this.danger = function(text){
+		this.notifier_alert('danger', text);
+	}
+
+	this.warning = function(text){
+		this.notifier_alert('warning', text);
+	}
+
+	this.info = function(text){
+		this.notifier_alert('info', text);
+	}
+
+	this.notifier_alert = function(type, text){
+		element.text(text);
+		if(lastClass){
+			element.removeClass(lastClass);
+		}
+		lastClass = "alert-" + type;
+		element.addClass(lastClass);
+		
+		element.removeClass("hidden");
+
+		setTimeout(function(){
+			element.addClass("hidden");
+		},2000);
+	}
+
+	this.confirm = function(options){
+		$("#" + elementID + "_confirm").find(".modal-title").text( typeof(options) != "object" || typeof(options.title) == "undefined" ? defaults.title : options.title);
+		$("#" + elementID + "_confirm").find(".modal-body p:first").text( typeof(options) != "object" || typeof(options.text) == "undefined" ? defaults.text : options.text);
+		$("#" + elementID + "_confirm").find("button.btn-default").text( typeof(options) != "object" || typeof(options.textNo) == "undefined" ? defaults.textNo : options.textNo);
+		$("#" + elementID + "_confirm").find("button.btn-primary").text( typeof(options) != "object" || typeof(options.textYes) == "undefined" ? defaults.textYes : options.textYes);
+
+		$("#" + elementID + "_confirm").find("button.btn-default").unbind("click");
+		$("#" + elementID + "_confirm").find("button.btn-default").bind("click", function(){
+			$("#" + elementID + "_confirm").modal("hide");
+			if(typeof(options) == "object" && typeof(options.callbackNo) == "function"){
+				options.callbackNo();
+			}
+		});
+
+		$("#" + elementID + "_confirm").find("button.btn-primary").unbind("click");
+		$("#" + elementID + "_confirm").find("button.btn-primary").bind("click", function(){
+			$("#" + elementID + "_confirm").modal("hide");
+			if(typeof(options) == "object" && typeof(options.callbackYes) == "function"){
+				options.callbackYes();
+			}
+		});
+		$("#" + elementID + "_confirm").modal("show");
+		$(".modal-backdrop:last").css("z-index", 1800);
+	}
+
+	function createElements(){
+		$("body").append($('<div class="alert hidden" style="width:30%;position:fixed;right: 35%;top:100px;z-index:3000;padding:25px;" role="alert" id="' + elementID + '"/>'));
+
+		var modal = $('<div class="modal fade" data-backdrop="static" style="z-index:2000;" id="' + elementID + '_confirm">\
+		  <div class="modal-dialog modal-sm">\
+		    <div class="modal-content">\
+		      <div class="modal-header" style="color:red;">\
+		        <h5 class="modal-title">Modal title</h5>\
+		      </div>\
+		      <div class="modal-body">\
+		        <p>One fine body&hellip;</p>\
+		      </div>\
+		      <div class="modal-footer">\
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\
+		        <button type="button" class="btn btn-primary">Save changes</button>\
+		      </div>\
+		    </div><!-- /.modal-content -->\
+		  </div><!-- /.modal-dialog -->\
+		</div><!-- /.modal -->');
+		$("body").append(modal);
+	};
+};
